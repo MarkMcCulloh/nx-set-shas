@@ -28594,23 +28594,20 @@ var require_github = __commonJS({
 var import_action = __toESM(require_dist_node12());
 var import_core = __toESM(require_core());
 var import_github = __toESM(require_github());
-var import_child_process = require("child_process");
+var import_node_child_process = require("node:child_process");
 var {
   runId,
   repo: { repo, owner },
   eventName
 } = import_github.context;
-var [
-  _node,
-  _filename,
-  githubToken,
-  branchName
-] = process.argv;
 var baseBranchName = "main";
-process.env.GITHUB_TOKEN = githubToken;
+var branchName = process.env.BRANCH_NAME;
+if (!branchName) {
+  throw new Error("BRANCH_NAME is not defined");
+}
 (async () => {
   console.log(JSON.stringify(process.argv));
-  const HEAD_SHA = (0, import_child_process.execSync)(`git rev-parse HEAD`, { encoding: "utf-8" }).toString();
+  const HEAD_SHA = (0, import_node_child_process.execSync)(`git rev-parse HEAD`, { encoding: "utf-8" }).toString();
   let BASE_SHA = await findSuccessfulCommit(
     runId,
     owner,
@@ -28622,7 +28619,7 @@ process.env.GITHUB_TOKEN = githubToken;
   if (BASE_SHA) {
     console.log(`Found successful run for this workflow. Using it as BASE_SHA`);
   } else {
-    BASE_SHA = (0, import_child_process.execSync)(`git merge-base origin/${baseBranchName} ${HEAD_SHA}`).toString();
+    BASE_SHA = (0, import_node_child_process.execSync)(`git merge-base origin/${baseBranchName} ${HEAD_SHA}`).toString();
     console.log(`
 			
 
@@ -28672,7 +28669,7 @@ async function findExistingCommit(shas) {
 }
 async function commitExists(commitSha) {
   try {
-    (0, import_child_process.execSync)(`git cat-file -e ${commitSha}`, { stdio: ["pipe", "pipe", null] });
+    (0, import_node_child_process.execSync)(`git cat-file -e ${commitSha}`, { stdio: ["pipe", "pipe", null] });
     return true;
   } catch {
     return false;
