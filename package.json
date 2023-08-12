@@ -4,7 +4,7 @@
   "license": "MIT",
   "description": "This package.json is here purely to control the version of the Action, in combination with https://github.com/JamesHenry/publish-shell-action",
   "scripts": {
-    "build": "esbuild --bundle ./src/index.ts --outfile=./dist/find-successful-workflow.js --platform=node --target=node18 --sourcemap"
+    "build": "esbuild --bundle src/index.ts --outfile=dist/index.js --platform=node --target=node18 --sourcemap"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
