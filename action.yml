@@ -17,7 +17,7 @@ runs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ github.token }}
-        BRANCH_NAME: ${{ github.ref_name }}
+        BRANCH_NAME: ${{ github.event.pull_request && github.head_ref || github.ref_name }}
       run: node "$GITHUB_ACTION_PATH/dist/index.js"
 
     - name: Log base and head SHAs used for nx affected

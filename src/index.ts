@@ -10,14 +10,14 @@ const {
 } = context;
 
 const baseBranchName = "main"
-const branchName = process.env.BRANCH_NAME;
+const branchName = (process.env.BRANCH_NAME ?? "main").replace("refs/heads/", "")
 
 if(!branchName) {
   throw new Error("BRANCH_NAME is not defined")
 }
 
 (async () => {
-  console.log(JSON.stringify(process.argv));
+  console.log(JSON.stringify(context));
   const HEAD_SHA = execSync(`git rev-parse HEAD`, { encoding: 'utf-8' }).toString();
 
   let BASE_SHA = await findSuccessfulCommit(

@@ -28601,12 +28601,12 @@ var {
   eventName
 } = import_github.context;
 var baseBranchName = "main";
-var branchName = process.env.BRANCH_NAME;
+var branchName = (process.env.BRANCH_NAME ?? "main").replace("refs/heads/", "");
 if (!branchName) {
   throw new Error("BRANCH_NAME is not defined");
 }
 (async () => {
-  console.log(JSON.stringify(process.argv));
+  console.log(JSON.stringify(import_github.context));
   const HEAD_SHA = (0, import_node_child_process.execSync)(`git rev-parse HEAD`, { encoding: "utf-8" }).toString();
   let BASE_SHA = await findSuccessfulCommit(
     runId,
